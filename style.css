@@ -287,6 +287,15 @@ html.has-scroll-dragging {
   line-height: 1;
 }
 
+.section-header__drag {
+  margin-left: auto;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.35);
+  white-space: nowrap;
+  align-self: center;
+}
+
 /* ════════════════════════════════════════════════
    SECTION — VIDEO GRID
 ════════════════════════════════════════════════ */
@@ -395,17 +404,28 @@ html.has-scroll-dragging {
 }
 
 .testimonials__track-wrap {
-  overflow: hidden;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
   width: 100%;
+  padding: 0 0 6vh;
+}
+
+.testimonials__track-wrap:active {
+  cursor: grabbing;
+}
+
+.testimonials__track-wrap::-webkit-scrollbar {
+  display: none;
 }
 
 .testimonials__track {
   display: flex;
   gap: 0;
   width: max-content;
-  will-change: transform;
-  /* Left padding so first card starts with page margin */
-  padding-left: 6vw;
+  padding: 0 6vw;
 }
 
 .testimonial-card {
@@ -619,6 +639,16 @@ html.has-scroll-dragging {
   border-top: 1px solid rgba(255,255,255,0.1);
   padding-top: 2rem;
   margin-top: 4vh;
+}
+
+.footer__meta a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.footer__meta a:hover {
+  color: var(--white);
 }
 
 /* ════════════════════════════════════════════════

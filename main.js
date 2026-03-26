@@ -176,24 +176,37 @@
     });
   });
 
-  // ─── TESTIMONIALS — Horizontal Scroll ─────────
-  const track = document.getElementById('testimonials-track');
+  // ─── TESTIMONIALS — Drag-to-scroll ────────────
+  const trackWrap = document.getElementById('testimonials-track-wrap');
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragScrollLeft = 0;
 
-  gsap.to(track, {
-    x: () => -(track.scrollWidth - window.innerWidth),
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.s-testimonials',
-      scroller: '#scroll-container',
-      start: 'top top',
-      end: () => `+=${track.scrollWidth - window.innerWidth}`,
-      pin: true,
-      pinType: 'transform',
-      scrub: 1,
-      anticipatePin: 1,
-      invalidateOnRefresh: true,
-    },
+  trackWrap.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    dragStartX = e.pageX - trackWrap.getBoundingClientRect().left;
+    dragScrollLeft = trackWrap.scrollLeft;
   });
+
+  document.addEventListener('mouseup', () => { isDragging = false; });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - trackWrap.getBoundingClientRect().left;
+    trackWrap.scrollLeft = dragScrollLeft - (x - dragStartX) * 1.5;
+  });
+
+  // Touch
+  trackWrap.addEventListener('touchstart', (e) => {
+    dragStartX = e.touches[0].pageX;
+    dragScrollLeft = trackWrap.scrollLeft;
+  }, { passive: true });
+
+  trackWrap.addEventListener('touchmove', (e) => {
+    const dx = e.touches[0].pageX - dragStartX;
+    trackWrap.scrollLeft = dragScrollLeft - dx;
+  }, { passive: true });
 
   // ─── CV SECTION — Data Scramble ───────────────
   const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&/\\[]{}!?';
