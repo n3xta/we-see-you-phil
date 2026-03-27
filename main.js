@@ -175,11 +175,10 @@
     });
 
     cell.addEventListener('mouseleave', () => {
-      if (video.muted) {
-        video.pause();
-        video.currentTime = 0;
-        tag.textContent = '[ PLAY ]';
-      }
+      video.pause();
+      video.currentTime = 0;
+      video.muted = true;
+      tag.textContent = '[ PLAY ]';
     });
 
     cell.addEventListener('click', () => {
