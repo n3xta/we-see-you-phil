@@ -164,15 +164,33 @@
     once: true,
   });
 
-  // ─── VIDEO SECTION — Play on hover ────────────
+  // ─── VIDEO SECTION — Hover preview (muted) + click for sound ────
   document.querySelectorAll('.video-cell__inner').forEach((cell) => {
     const video = cell.querySelector('video');
+    const tag   = cell.querySelector('.video-cell__tag');
+
     cell.addEventListener('mouseenter', () => {
+      video.muted = true;
       video.play().catch(() => {});
     });
+
     cell.addEventListener('mouseleave', () => {
-      video.pause();
-      video.currentTime = 0;
+      if (video.muted) {
+        video.pause();
+        video.currentTime = 0;
+        tag.textContent = '[ PLAY ]';
+      }
+    });
+
+    cell.addEventListener('click', () => {
+      if (video.muted) {
+        video.muted = false;
+        video.play().catch(() => {});
+        tag.textContent = '[ SOUND ON ]';
+      } else {
+        video.muted = true;
+        tag.textContent = '[ PLAY ]';
+      }
     });
   });
 
